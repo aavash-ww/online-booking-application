@@ -152,7 +152,7 @@ app.post("/places", (req, res) => {
   if (token) {
     jwt.verify(token, secretkey, { httpOnly: true }, async (err, user) => {
       if (err) throw err;
-      Places.create({
+      const placeInfo = await Places.create({
         owner: user.id,
         title,
         address,
@@ -164,6 +164,7 @@ app.post("/places", (req, res) => {
         extraInfo,
         perks,
       });
+      res.json(placeInfo);
     });
   }
 });

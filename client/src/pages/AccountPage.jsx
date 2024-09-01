@@ -8,6 +8,7 @@ export default function AccountPage() {
   const { user, ready, setUser } = useContext(UserContext);
   let { subpages } = useParams();
   const navigate = useNavigate();
+  console.log({ subpages });
 
   async function logout() {
     await axios.post("/logout");

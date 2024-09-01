@@ -1,6 +1,7 @@
 export default function Perks({ selected, onChange }) {
   function handleCbClick(e) {
     const { checked, name } = e.target;
+
     if (checked) {
       onChange([...selected, name]); //since name is a single string so we wont use ...name
     } else {
