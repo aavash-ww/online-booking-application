@@ -125,7 +125,6 @@ app.post("/photo-upload", upload.array("photos", 10), (req, res) => {
   try {
     const filenames = req.files.map((file) => file.filename); //since it is in array
     res.json({ filenames });
-    // res.json(req.files);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -152,7 +151,7 @@ app.post("/places", (req, res) => {
         title,
         address,
         description,
-        addedPhoto,
+        photo: addedPhoto,
         checkInTime,
         checkOutTime,
         maxGuests,
@@ -160,6 +159,17 @@ app.post("/places", (req, res) => {
         perks,
       });
       res.json(placeInfo);
+    });
+  }
+});
+
+app.get("/places", (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, secretkey, { httpOnly: true }, async (err, user) => {
+      if (err) throw err;
+      const { id } = user;
+      res.json(await Places.find({ owner: id }));
     });
   }
 });
