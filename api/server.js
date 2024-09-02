@@ -71,16 +71,11 @@ app.post("/login", async (req, res) => {
     if (user) {
       const checkPassword = bcrypt.compareSync(password, user.password);
       if (checkPassword) {
-        jwt.sign(
-          { email: user.email, id: user._id },
-          secretkey,
-          {},
-          (err, token) => {
-            if (err) throw err;
-            res.cookie("token", token, { httpOnly: true }).json(user);
-            res.status(401).json({ message: "Invalid Password" });
-          }
-        );
+        jwt.sign({ id: user._id }, secretkey, {}, (err, token) => {
+          if (err) throw err;
+          res.cookie("token", token, { httpOnly: true }).json(user);
+          res.status(401).json({ message: "Invalid Password" });
+        });
       } else {
       }
     } else {
