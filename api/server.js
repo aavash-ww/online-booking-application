@@ -174,6 +174,13 @@ app.get("/places", (req, res) => {
   }
 });
 
+app.get("/places/:id", async (req, res) => {
+  const { id } = req.params;
+  if (id) {
+    res.json(await Places.findById(id));
+  }
+});
+
 app.listen(8080, () => {
   console.log("Server is running in 8080");
 });

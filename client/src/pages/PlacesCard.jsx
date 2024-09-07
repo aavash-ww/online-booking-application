@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 
 export default function PlacesCard() {
   const [places, setPlaces] = useState([]);
-  console.log(places);
 
   useEffect(() => {
     axios.get("/places").then(({ data }) => {
       setPlaces(data);
     });
   }, []);
+
   return (
     <>
       {places.length > 0 &&
@@ -19,11 +19,14 @@ export default function PlacesCard() {
           <Link
             key={place._id}
             to={"/account/accommodations/" + place._id}
-            className="bg-gray-200 rounded-2xl p-4 flex cursor-pointer"
+            className=" bg-gray-200 rounded-2xl p-4 flex cursor-pointer"
           >
-            <div className="h-32 w-32 shrink-0 grow bg-gray-500 mr-4">
+            <div className="flex h-32 w-32 shrink-0 grow bg-gray-500 mr-4">
               {place.photo.length > 0 && (
-                <img src={"http://localhost:8080/uploads/" + place.photo[0]} />
+                <img
+                  className="object-cover"
+                  src={"http://localhost:8080/uploads/" + place.photo[0]}
+                />
               )}
             </div>
             <div className="grow-0 shrink ">

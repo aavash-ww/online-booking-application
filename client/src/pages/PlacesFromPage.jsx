@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PhotosUploader from "../PhotosUploader";
 import Perks from "../Perks";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AccountNavPage from "../AccountNavPage";
 
 export default function PlacesFromPage() {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
@@ -32,6 +33,22 @@ export default function PlacesFromPage() {
     });
     navigate("/account/accommodations");
   }
+
+  useEffect(() => {
+    axios.get("/places/" + id).then(({ data }) => {
+      setTitle(data.title);
+      setAddress(data.address);
+      // setAddedPhoto(data.photo);
+      setDescription(data.description);
+      // setPerks(data.perks);
+      setCheckInTime(data.checkInTime);
+      setCheckOutTime(data.checkOutTime);
+      setMaxGuests(data.maxGuests);
+      setExtraInfo(data.extraInfo);
+      console.log(data);
+    });
+  }, [id]);
+
   function inputHeader(text) {
     return <h5 className="text-2xl mt-2 ">{text}</h5>;
   }
